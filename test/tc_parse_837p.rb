@@ -22,9 +22,9 @@
 #++
 #
 require 'x12'
-require 'test/unit'
+require 'minitest/autorun'
 
-class Test837pParse < Test::Unit::TestCase
+class Test837pParse < Minitest::Test
 
   def setup
     @parser = X12::Parser.new('837p.xml')

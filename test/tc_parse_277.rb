@@ -23,10 +23,10 @@
 #
 
 require 'x12'
-require 'test/unit'
+require 'minitest/autorun'
 
-class Test277Parse < Test::Unit::TestCase
-  
+class Test277Parse < Minitest::Test
+
   MESSAGE = "ISA*00*0000000000*00*0000000000*01*091712414000000*ZZ*Trading Partner*020808*0931*U*00401*000000002*0*T*:~
 GS*HN*952931460*Trading Partner*20020808*0931*2*X*004010X093~
 ST*277*0002~
@@ -64,16 +64,16 @@ IEA*1*000000002~"
     @parser = X12::Parser.new('277.xml')
     @r = @parser.parse('277', @message)
   end
-  
+
   def teardown
     #nothing
   end
 
 
   def test_basic
-    
+
   end
-  
+
   def test_header
     assert_equal("00", @r.ISA.AuthorizationInformationQualifier)
     assert_equal("0000000000", @r.ISA.AuthorizationInformation)
@@ -124,5 +124,5 @@ IEA*1*000000002~"
     puts sprintf("Parses per second, 277: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
   end # test_timing
 
-  
+
 end

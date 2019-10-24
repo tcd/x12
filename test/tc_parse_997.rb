@@ -2,8 +2,8 @@
 #     This file is part of the X12Parser library that provides tools to
 #     manipulate X12 messages using Ruby native syntax.
 #
-#     http://x12parser.rubyforge.org 
-#     
+#     http://x12parser.rubyforge.org
+#
 #     Copyright (C) 2008 APP Design, Inc.
 #
 #     This library is free software; you can redistribute it and/or
@@ -22,9 +22,9 @@
 #++
 #
 require 'x12'
-require 'test/unit'
+require 'minitest/autorun'
 
-class Test997Parse < Test::Unit::TestCase
+class Test997Parse < Minitest::Test
 
   @@p = nil
 #  @@parser = X12::Parser.new('misc/997single.xml')
@@ -50,7 +50,7 @@ AK9*R*1*1*0~
 SE*8*2878~
 EOT
 
-# This should parse into 
+# This should parse into
 # 997 [0]: ST*997*2878~AK1*HS*293328532~A...AK5*R*5~AK9*R*1*1*0~SE*8*2878~
 #   ST [0]: ST*997*2878~
 #   AK1 [0]: AK1*HS*293328532~

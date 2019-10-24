@@ -23,10 +23,10 @@
 #
 
 require 'x12'
-require 'test/unit'
+require 'minitest/autorun'
 
-class Test276Parse < Test::Unit::TestCase
-  
+class Test276Parse < Minitest::Test
+
   # patient is the subscriber
   MESSAGE1 = "ISA*00*0000000000*00*0000000000*ZZ*610017         *ZZ*T0001799       *030430*1700*U*00401*000000157*0*P*:~
 GS*HB*610017*T0001799*20030430*1700190*1570001*X*004010X092A1~ST*276*0046~
@@ -88,15 +88,15 @@ IEA*1*000000157~"
     @parser = X12::Parser.new('276.xml')
     @r = @parser.parse('276', @message1)
   end
-  
-  
+
+
   def teardown
     #nothing
   end
 
 
   def test_basic
-    
+
   end
 
   def test_header

@@ -22,9 +22,9 @@
 #++
 #
 require 'x12'
-require 'test/unit'
+require 'minitest/autorun'
 
-class Test997Factory < Test::Unit::TestCase
+class Test997Factory < Minitest::Test
 
   @@p = nil
 tmp=<<-EOT
