@@ -1,3 +1,5 @@
+require 'test_helper'
+
 #--
 #     This file is part of the X12Parser library that provides tools to
 #     manipulate X12 messages using Ruby native syntax.
@@ -21,9 +23,6 @@
 #     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #++
 #
-require 'x12'
-require 'minitest/autorun'
-
 class Test997Parse < Minitest::Test
 
   @@p = nil

@@ -21,11 +21,9 @@
 #     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #++
 #
+require 'test_helper'
 
-require 'x12'
-require 'minitest/autorun'
-
-class Test276Factory < Minitest::Test
+class Test277Factory < Minitest::Test
   
   def setup
     #nothing
@@ -34,9 +32,10 @@ class Test276Factory < Minitest::Test
   def teardown
     #nothing
   end
-
+  
   def test_basic
-    puts "Factory 276 - Need to build tests"
+    puts "Factory 277 - Need to build tests"
   end
+
 
 end
