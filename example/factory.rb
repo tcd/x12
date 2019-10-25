@@ -2,8 +2,8 @@
 #     This file is part of the X12Parser library that provides tools to
 #     manipulate X12 messages using Ruby native syntax.
 #
-#     http://x12parser.rubyforge.org 
-#     
+#     http://x12parser.rubyforge.org
+#
 #     Copyright (C) 2008 APP Design, Inc.
 #
 #     This library is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ require 'x12'
 # by compiling .d12 file
 parser = X12::Parser.new('misc/997single.xml')
 
-# Make a new 997 message 
+# Make a new 997 message
 r = parser.factory('997')
 
 #
@@ -45,7 +45,7 @@ r.AK1 { |ak1|
   ak1.GroupControlNumber       = 293328532
 }
 
-# Set fields deeply inside a segment inside 
+# Set fields deeply inside a segment inside
 # nested loops (L1000/L1010/AK4 in this case)
 r.L1000.L1010.AK4.DataElementSyntaxErrorCode = 55
 r.L1000.AK2.TransactionSetIdentifierCode     = 270
