@@ -1,5 +1,4 @@
-#!/usr/bin/env rake
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 require 'rake'
 require 'rake/testtask'
@@ -9,7 +8,8 @@ desc 'Test the plugin'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.libs << 'test'
-  t.pattern = 'test/t*.rb'
+  # t.pattern = 'test/t*.rb'
+  t.test_files = FileList['test/**/*_test.rb']
   t.verbose = true
 end
 
