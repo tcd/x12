@@ -15,9 +15,6 @@ require 'x12/xmldefinitions'
 # X12 implements direct manipulation of X12 structures using Ruby syntax.
 module X12
   include LibXML
-
-  # @type [X12::Empty]
   EMPTY = Empty.new()
-  # @type [Integer]
   TEST_REPEAT = 1
 end

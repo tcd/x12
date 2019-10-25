@@ -3,9 +3,9 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'x12'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'x12'
+  gem.name          = 'tcd_x12'
   gem.version       = X12::VERSION
-  gem.authors       = ['Marty Petersen']
+  gem.authors       = ['Marty Petersen', 'Clay Dunston']
   gem.email         = ['themooseman@comcast.net']
   gem.description   = 'A gem to handle parsing and generation of ANSI X12 documents. Currently tested with Ruby >= 1.9.2. Gem supports X12 EDI transactions 270, 997, 837p and 835.  Anyone wanting to create additional XML files for other transactions welcomed.'
   gem.summary       = 'A gem to handle parsing and generation of ANSI X12 documents'
