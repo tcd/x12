@@ -1,3 +1,4 @@
 module X12
-  VERSION = '1.5.4'.freeze
+  # @type [String]
+  VERSION = '1.6.0'.freeze
 end
