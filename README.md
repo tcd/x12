@@ -10,7 +10,7 @@ Changes welcome, especially new document types or better tests.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'pd_x12'
+gem 'x12'
 ```
 
 And then execute:
@@ -22,9 +22,9 @@ $ bundle
 Or install it yourself as:
 
 ```sh
-$ gem install pd_x12
+$ gem install x12
 ```
- 
+
 ## Documentation
 
 ### Wiki Page: https://github.com/mjpete3/x12/wiki
@@ -41,10 +41,10 @@ The authors of the project were inspired by the following works:
 
 - The Perl X12 parser by Prasad Poruporuthan, search.cpan.org/~prasad/X12-0.09/lib/X12/Parser.pm
 - The Ruby port of the above by Chris Parker, rubyforge.org/projects/x12-parser/
-- This project originated from App Design's X12 parser.  
+- This project originated from App Design's X12 parser.
 
 - Project was forked by Sean Walberg, creating version 1.2.0 in April 2012.
-- Project was forked by Marty Petersen in November 2012, creating pd_x12. 
+- Project was forked by Marty Petersen in November 2012, creating pd_x12.
 
 # License
 

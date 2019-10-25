@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'x12'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'pd_x12'
+  gem.name          = 'x12'
   gem.version       = X12::VERSION
   gem.authors       = ['Marty Petersen']
   gem.email         = ['themooseman@comcast.net']
