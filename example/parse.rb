@@ -20,7 +20,8 @@
 #     License along with this library; if not, write to the Free Software
 #     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #++
-#
+
+
 require 'x12'
 
 # Read message definition and create an actual parser

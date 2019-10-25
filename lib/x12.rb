@@ -22,13 +22,12 @@
 #++
 #
 # $Id: X12.rb 91 2009-05-13 22:11:10Z ikk $
-#
-# Package implementing direct manipulation of X12 structures using Ruby syntax.
 
-require "libxml"
+
+require 'libxml'
 require 'pp'
 
-require "x12/version"
+require 'x12/version'
 require 'x12/base'
 require 'x12/empty'
 require 'x12/field'
@@ -39,10 +38,11 @@ require 'x12/loop'
 require 'x12/xmldefinitions'
 require 'x12/parser'
 
+# X12 implements direct manipulation of X12 structures using Ruby syntax.
 module X12
   include LibXML
   
   EMPTY = Empty.new()
-  TEST_REPEAT = 100
+  TEST_REPEAT = 1
   
 end
