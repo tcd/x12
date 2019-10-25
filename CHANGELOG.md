@@ -1,5 +1,8 @@
 # Change Log
 
+10/25/19 - release 1.6.2
+* Fix invalid yard doc comments
+
 10/25/19 - release 1.6.1
 * Fix invalid yard doc comments
 

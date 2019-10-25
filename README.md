@@ -1,6 +1,7 @@
 # X12
 
 ![Ruby Version](https://img.shields.io/badge/Ruby->=1.9.1-red.svg)
+[![Gem Version](https://badge.fury.io/rb/tcd_x12.svg)](https://badge.fury.io/rb/tcd_x12)
 ![GitHub](https://img.shields.io/github/license/tcd/x12)
 
 Changes welcome, especially new document types or better tests.
@@ -10,7 +11,7 @@ Changes welcome, especially new document types or better tests.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'x12'
+gem 'tcd_x12'
 ```
 
 And then execute:
@@ -22,7 +23,7 @@ $ bundle
 Or install it yourself as:
 
 ```sh
-$ gem install x12
+$ gem install tcd_x12
 ```
 
 ## Documentation
@@ -45,6 +46,7 @@ The authors of the project were inspired by the following works:
 
 - Project was forked by Sean Walberg, creating version 1.2.0 in April 2012.
 - Project was forked by Marty Petersen in November 2012, creating pd_x12.
+- Project was forked by Clay Dunston in October 2019, creating tcd_x12.
 
 # License
 
