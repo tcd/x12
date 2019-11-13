@@ -26,16 +26,15 @@ require 'test_helper'
 class Test277Factory < Minitest::Test
 
   def setup
-    #nothing
+    # nothing
   end
 
   def teardown
-    #nothing
+    # nothing
   end
 
   def test_basic
-    skip("Factory 277 - Need to build tests")
+    skip('Factory 277 - Need to build tests')
   end
-
 
 end

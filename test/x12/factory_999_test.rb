@@ -27,11 +27,22 @@ class Test999Factory < Minitest::Test
 
   def setup
     @parser = X12::Parser.new('999.xml')
-    @msg = "ISA*00*          *00*          *27*PPPPPP         *27*XXXXXX         *100914*1025*^*00501*000000218*0*T*:~GS*FA*PPPPPP*XXXXXX*20100914*10251463*3*X*005010X231A1~ST*999*3001*005010X231A1~AK1*HC*2145001*005010X222A1~AK2*837*000000001*005010X222A1~IK5*A~AK9*A*1*1*1~SE*6*3001~GE*1*3~IEA*1*000000218~"
+    @msg = <<~EDI.gsub!(/\n/, '')
+      ISA*00*          *00*          *27*PPPPPP         *27*XXXXXX         *100914*1025*^*00501*000000218*0*T*:~
+      GS*FA*PPPPPP*XXXXXX*20100914*10251463*3*X*005010X231A1~
+      ST*999*3001*005010X231A1~
+      AK1*HC*2145001*005010X222A1~
+      AK2*837*000000001*005010X222A1~
+      IK5*A~
+      AK9*A*1*1*1~
+      SE*6*3001~
+      GE*1*3~
+      IEA*1*000000218~
+    EDI
   end
 
   def teardown
-    #nothing
+    # nothing
   end
 
   def set_header(r)
@@ -62,7 +73,7 @@ class Test999Factory < Minitest::Test
     r.GS.VersionReleaseIndustryIdentifierCode = "005010X231A1"
 
     r.ST.TransactionSetIdentifierCode = 999
-    r.ST.TransactionSetControlNumber  = '3001'
+    r.ST.TransactionSetControlNumber = "3001"
     r.ST.ImplementationConventionReference = "005010X231A1"
     return r
   end
@@ -82,17 +93,17 @@ class Test999Factory < Minitest::Test
   def test_all
     @r = @parser.factory('999')
     @r = set_header(@r)
-    #count both the ST and SE segments
+    # count both the ST and SE segments
     @seg_count = 2
 
-    @r.AK1 {|a|
+    @r.AK1 { |a|
       a.FunctionalIdentifierCode = "HC"
       a.GroupControlNumber = "2145001"
       a.VersionReleaseIndustryIdentifierCode = "005010X222A1"
     }
     @seg_count += 1
 
-    @r.L1000 {|a|
+    @r.L1000 { |a|
       a.AK2.TransactionSetIdentifierCode = "837"
       a.AK2.TransactionSetControlNumber = "000000001"
       a.AK2.ImplementationConventionReference = "005010X222A1"
@@ -101,7 +112,7 @@ class Test999Factory < Minitest::Test
       @seg_count += 1
     }
 
-    @r.AK9 {|a|
+    @r.AK9 { |a|
       a.FunctionalGroupAcknowledgeCode = "A"
       a.NumberOfTransactionSetsIncluded = "1"
       a.NumberOfReceivedTransactionSets = "1"
@@ -115,13 +126,12 @@ class Test999Factory < Minitest::Test
   end
 
   def test_timing
-    start = Time::now
+    start = Time.now
     X12::TEST_REPEAT.times do
       test_all
     end
-    finish = Time::now
+    finish = Time.now
     puts sprintf("Factories per second, 999: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
   end # test_timing
-
 
 end

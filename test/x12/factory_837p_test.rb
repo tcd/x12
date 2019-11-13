@@ -25,38 +25,39 @@ require 'test_helper'
 
 class Test837pFactory < Minitest::Test
 
-  RESULT = "ISA*00*          *00*          *01*9012345720000  *01*9088877320000  *100822*1134*U*00200*000000007*0*T*:~
-GS*HC*901234572000*908887732000*20100822*1615*7*X*005010X222~
-ST*837*0007*005010X222~
-BHT*0019*00*123BATCH*20100822*1615*CH~
-NM1*41*2*ABC CLEARINGHOUSE*****46*123456789~
-PER*IC*WILMA FLINSTONE*TE*9195551111~
-NM1*40*2*BCBSNC*****46*987654321~
-HL*1* *20*1~
-NM1*85*1*SMITH*ELIZABETH*A**M.D.*XX*0123456789~
-N3*123 MUDD LANE~
-N4*DURHAM*NC*27701~
-REF*EI*123456789~
-HL*2*1*22*0~
-SBR*P*18*ABC123101******BL~
-NM1*IL*1*DOUGH*MARY*B***MI*24670389600~
-N3*P O BOX 12312~
-N4*DURHAM*NC*27715~
-DMG*D8*19670807*F~
-NM1*PR*2*BCBSNC*****PI*987654321~
-CLM*PTACCT2235057*100.5***11::1*Y*A*Y*N~
-REF*EA*MEDREC11111~
-HI*BK:78901~
-LX*1~
-SV1*HC:99212*100.5*UN*1*12**1**N~
-DTP*472*D8*20100801~
-SE*24*0007~
-GE*1*7~
-IEA*1*000000007~"
+  RESULT = <<~EDI.gsub!(/\n/, '')
+    ISA*00*          *00*          *01*9012345720000  *01*9088877320000  *100822*1134*U*00200*000000007*0*T*:~
+    GS*HC*901234572000*908887732000*20100822*1615*7*X*005010X222~
+    ST*837*0007*005010X222~
+    BHT*0019*00*123BATCH*20100822*1615*CH~
+    NM1*41*2*ABC CLEARINGHOUSE*****46*123456789~
+    PER*IC*WILMA FLINSTONE*TE*9195551111~
+    NM1*40*2*BCBSNC*****46*987654321~
+    HL*1* *20*1~
+    NM1*85*1*SMITH*ELIZABETH*A**M.D.*XX*0123456789~
+    N3*123 MUDD LANE~
+    N4*DURHAM*NC*27701~
+    REF*EI*123456789~
+    HL*2*1*22*0~
+    SBR*P*18*ABC123101******BL~
+    NM1*IL*1*DOUGH*MARY*B***MI*24670389600~
+    N3*P O BOX 12312~
+    N4*DURHAM*NC*27715~
+    DMG*D8*19670807*F~
+    NM1*PR*2*BCBSNC*****PI*987654321~
+    CLM*PTACCT2235057*100.5***11::1*Y*A*Y*N~
+    REF*EA*MEDREC11111~
+    HI*BK:78901~
+    LX*1~
+    SV1*HC:99212*100.5*UN*1*12**1**N~
+    DTP*472*D8*20100801~
+    SE*24*0007~
+    GE*1*7~
+    IEA*1*000000007~
+  EDI
 
   def setup
     @result = RESULT
-    @result.gsub!(/\n/,'')
 
     @parser = X12::Parser.new('837p.xml')
   end
@@ -91,8 +92,8 @@ IEA*1*000000007~"
   end
 
   def loop_l1000a(loop)
-    segment_nm1(loop.NM1,"41","2","ABC CLEARINGHOUSE","","","","","46","123456789")
-    loop.PER {|p|
+    segment_nm1(loop.NM1, "41", "2", "ABC CLEARINGHOUSE", "", "", "", "", "46", "123456789")
+    loop.PER { |p|
       p.ContactFunctionCode = "IC"
       p.Name = "WILMA FLINSTONE"
       p.CommunicationNumberQualifier1 = "TE"
@@ -101,7 +102,7 @@ IEA*1*000000007~"
   end
 
   def loop_l1000b(loop)
-    segment_nm1(loop.NM1,"40","2","BCBSNC","","","","","46","987654321")
+    segment_nm1(loop.NM1, "40", "2", "BCBSNC", "", "", "", "", "46", "987654321")
   end
 
   def loop_l2000a(loop)
@@ -113,14 +114,14 @@ IEA*1*000000007~"
   end
 
   def loop_l2010aa(loop)
-    segment_nm1(loop.NM1,"85","1","SMITH","ELIZABETH","A","","M.D.","XX","0123456789")
-    segment_n3(loop.N3,"123 MUDD LANE","")
-    segment_n4(loop.N4,"DURHAM","NC","27701")
+    segment_nm1(loop.NM1, "85", "1", "SMITH", "ELIZABETH", "A", "", "M.D.", "XX", "0123456789")
+    segment_n3(loop.N3, "123 MUDD LANE", "")
+    segment_n4(loop.N4, "DURHAM", "NC", "27701")
 
-    loop.REF {|r|
+    loop.REF { |r|
       r.ReferenceIdentificationQualifier = "EI"
       r.ReferenceIdentification = "123456789"
-  }
+    }
   end
 
   def loop_l2000b(loop)
@@ -130,7 +131,7 @@ IEA*1*000000007~"
       h.HierarchicalLevelCode = "22"
       h.HierarchicalChildCode = "0"
     }
-    loop.SBR {|s|
+    loop.SBR { |s|
       s.PayerResponsibilitySequenceNumberCode = "P"
       s.IndividualRelationshipCode = "18"
       s.InsuredGroupOrPolicyNumber = "ABC123101"
@@ -140,23 +141,22 @@ IEA*1*000000007~"
   end
 
   def loop_l2010ba(loop)
-    segment_nm1(loop.NM1,"IL","1","DOUGH","MARY","B","","","MI","24670389600")
+    segment_nm1(loop.NM1, "IL", "1", "DOUGH", "MARY", "B", "", "", "MI", "24670389600")
     segment_n3(loop.N3, "P O BOX 12312", "")
-    segment_n4(loop.N4,"DURHAM","NC","27715")
-    loop.DMG {|d|
+    segment_n4(loop.N4, "DURHAM", "NC", "27715")
+    loop.DMG { |d|
       d.DateTimePeriodFormatQualifier = "D8"
       d.DateTimePeriod = "19670807"
       d.GenderCode = "F"
     }
-
   end
 
   def loop_l2010bb(loop)
-    segment_nm1(loop.NM1,"PR","2","BCBSNC","","","","","PI","987654321")
+    segment_nm1(loop.NM1, "PR", "2", "BCBSNC", "", "", "", "", "PI", "987654321")
   end
 
   def loop_l2300(loop)
-    loop.CLM {|c|
+    loop.CLM { |c|
       c.PatientAccountNumber = "PTACCT2235057"
       c.MonetaryAmount = "100.5"
       c.HealthCareServiceLocationInformation = "11::1"
@@ -166,7 +166,7 @@ IEA*1*000000007~"
       c.ReleaseOfInformationCode = "N"
     }
 
-    loop.REF {|r|
+    loop.REF { |r|
       r.ReferenceIdentificationQualifier = "EA"
       r.ReferenceIdentification = "MEDREC11111"
     }
@@ -176,7 +176,7 @@ IEA*1*000000007~"
 
   def loop_l2400(loop)
     loop.LX.AssignedNumber = "1"
-    loop.SV1 {|s|
+    loop.SV1 { |s|
       s.CompositeMedicalProcedureIdentifier = "HC:99212"
       s.LineItemChargeAmount = "100.5"
       s.UnitOrBasisForMeasurementCode = "UN"
@@ -186,7 +186,7 @@ IEA*1*000000007~"
       s.EmergencyIndicator = "N"
     }
 
-    loop.DTP {|d|
+    loop.DTP { |d|
       d.DateTimeQualifier = "472"
       d.DateTimePeriodFormatQualifier = "D8"
       d.DateTimePeriod = "20100801"
@@ -217,7 +217,7 @@ IEA*1*000000007~"
       isa.ComponentElementSeparator = ':'
     }
 
-    @r.GS {|gs|
+    @r.GS { |gs|
       gs.FunctionalIdentifierCode = 'HC'
       gs.ApplicationSendersCode = '901234572000'
       gs.ApplicationReceiversCode = '908887732000'
@@ -261,7 +261,7 @@ IEA*1*000000007~"
     count += 3
 
     @r.SE.NumberOfIncludedSegments = count + 1
-    @r.SE.TransactionSetControlNumber  = '0007'
+    @r.SE.TransactionSetControlNumber = '0007'
 
     @r.GE.NumberOfTransactionSetsIncluded = 1
     @r.GE.GroupControlNumber = 7
@@ -273,12 +273,12 @@ IEA*1*000000007~"
   end
 
   def test_timing
-    start = Time::now
+    start = Time.now
     X12::TEST_REPEAT.times do
       test_all
     end
-    finish = Time::now
+    finish = Time.now
     puts sprintf("Factories per second, 837p: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
+  end
 
 end
