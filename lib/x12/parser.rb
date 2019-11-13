@@ -21,7 +21,7 @@ module X12
 
     # Creates a parser out of a definition.
     def initialize(file_name)
-      save_definition = @x12_definition
+      save_definition = @x12_definition if defined? @x12_definition
 
       # Deal with Microsoft devices
       # get the current working directory
