@@ -51,10 +51,6 @@ class Test997Factory < Minitest::Test
     @@p ||= X12::Parser.new('997.xml')
   end
 
-  def teardown
-    # Nothing
-  end
-
   def test_all
     @r = @@p.factory('997')
 
@@ -121,12 +117,14 @@ class Test997Factory < Minitest::Test
   end # test_all
 
   def test_timing
+    return unless ENV['BENCH']
+
     start = Time.now
     X12::TEST_REPEAT.times do
       test_all
     end
     finish = Time.now
-    puts sprintf("Factories per second, 997: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+    puts sprintf('Factories per second, 997: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
   end
 
 end

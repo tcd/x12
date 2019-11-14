@@ -25,51 +25,45 @@ require 'test_helper'
 
 class Test277Parse < Minitest::Test
 
-  MESSAGE = "ISA*00*0000000000*00*0000000000*01*091712414000000*ZZ*Trading Partner*020808*0931*U*00401*000000002*0*T*:~
-GS*HN*952931460*Trading Partner*20020808*0931*2*X*004010X093~
-ST*277*0002~
-BHT*0010*08*3920394930203*20020808**DG~
-HL*1**20*1~
-NM1*PR*2*PACIFICARE/SECURE HORIZONS*****PI*952931460~
-PER*IC**TE*8002037729~
-HL*2*1*21*1~
-NM1*41*2*Clearing House USA*****46*X67E~
-HL*3*2*19*1~
-NM1*1P*2*CURE ALL*****XX*1122334455~
-HL*4*3*22*0~
-DMG*D8*19650625*F~
-NM1*QC*1*POPPINS*MARY****MI*111222301~
-TRN*2*000000001~
-STC*P1:20*20020808**550.00*550.00~
-REF*1K*1112223010001~
-REF*BLT*111~
-REF*EA*3920394930203~
-DTP*232*RD8*20020228-20020228~
-SVC*HC:99291*550.00*550.00~
-STC*P1:20*20020808**550.00*550.00~
-REF*FJ*1~
-DTP*472*RD8*20020228-20020228~
-SE*23*0002~
-GE*1*2~
-IEA*1*000000002~"
+  MESSAGE = <<~EDI.gsub(/\n/, '')
+    ISA*00*0000000000*00*0000000000*01*091712414000000*ZZ*Trading Partner*020808*0931*U*00401*000000002*0*T*:~
+    GS*HN*952931460*Trading Partner*20020808*0931*2*X*004010X093~
+    ST*277*0002~
+    BHT*0010*08*3920394930203*20020808**DG~
+    HL*1**20*1~
+    NM1*PR*2*PACIFICARE/SECURE HORIZONS*****PI*952931460~
+    PER*IC**TE*8002037729~
+    HL*2*1*21*1~
+    NM1*41*2*Clearing House USA*****46*X67E~
+    HL*3*2*19*1~
+    NM1*1P*2*CURE ALL*****XX*1122334455~
+    HL*4*3*22*0~
+    DMG*D8*19650625*F~
+    NM1*QC*1*POPPINS*MARY****MI*111222301~
+    TRN*2*000000001~
+    STC*P1:20*20020808**550.00*550.00~
+    REF*1K*1112223010001~
+    REF*BLT*111~
+    REF*EA*3920394930203~
+    DTP*232*RD8*20020228-20020228~
+    SVC*HC:99291*550.00*550.00~
+    STC*P1:20*20020808**550.00*550.00~
+    REF*FJ*1~
+    DTP*472*RD8*20020228-20020228~
+    SE*23*0002~
+    GE*1*2~
+    IEA*1*000000002~
+  EDI
 
   def setup
     # result message that we are building and will test against
     @message = MESSAGE
-    # make the result usable in the tests
-    @message.gsub!(/\n/,'')
-
     @parser = X12::Parser.new('277.xml')
     @r = @parser.parse('277', @message)
   end
 
-  def teardown
-    #nothing
-  end
-
-
   def test_basic
-
+    skip()
   end
 
   def test_header
@@ -114,13 +108,14 @@ IEA*1*000000002~"
 
 
   def test_timing
-    start = Time::now
+    return unless ENV['BENCH']
+
+    start = Time.now
     X12::TEST_REPEAT.times do
       @r = @parser.parse('277', @message)
     end
-    finish = Time::now
-    puts sprintf("Parses per second, 277: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
-
+    finish = Time.now
+    puts sprintf('Parses per second, 277: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
 end

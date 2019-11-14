@@ -13,3 +13,4 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'x12'
 
 require 'minitest/autorun'
+require 'minitest/benchmark'

@@ -30,37 +30,34 @@ class Test270Parse < Minitest::Test
 
   def setup
     unless @@p
-      @@m=<<-EOT
-ST*270*1001~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*BIG PAYOR*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*Doe*Joe~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*1001~
-EOT
-      @@m.gsub!(/\n/,'')
+      @@m = <<~EDI.gsub(/\n/, '')
+        ST*270*1001~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*BIG PAYOR*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*Doe*Joe~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*1001~
+      EDI
 
       @@p = @@parser.parse('270', @@m)
-      # @@p.show
     end
     @r = @@p
-
-  end # setup
+  end
 
   def teardown
     # Nothing
-  end # teardown
+  end
 
   def test_ST
     assert_equal('ST*270*1001~', @r.ST.to_s)
     assert_equal('270', @r.ST.TransactionSetIdentifierCode)
-  end # test_ST
+  end
 
   def test_L2000A_NM1
     assert_equal('BIG PAYOR', @r.L2000A.L2100A.NM1.NameLastOrOrganizationName)
@@ -78,10 +75,12 @@ EOT
     assert_equal(X12::EMPTY, @r.L2000D.HHH)
     assert_equal(X12::EMPTY, @r.L2000B.L2111)
     assert_equal(' ', @r.L2000C.L2100C.N3.AddressInformation1)
-  end # test_absent
+  end
 
   def test_timing
-    start = Time::now
+    return unless ENV['BENCH']
+
+    start = Time.now
     X12::TEST_REPEAT.times do
       @r = @@parser.parse('270', @@m)
       test_ST
@@ -90,8 +89,8 @@ EOT
       test_L2000A_HL
       test_absent
     end
-    finish = Time::now
-    puts sprintf("Parses per second, 270: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
+    finish = Time.now
+    puts sprintf('Parses per second, 270: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
 end # TestParse

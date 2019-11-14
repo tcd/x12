@@ -26,28 +26,27 @@ require 'test_helper'
 class Test997Parse < Minitest::Test
 
   @@p = nil
-#  @@parser = X12::Parser.new('misc/997single.xml')
   @@parser = X12::Parser.new('997.xml')
 
   def setup
     unless @@p
-      @@m997=<<-EOT
-ST*997*2878~
-AK1*HS*293328532~
-AK2*270*307272179~
-AK3*NM1*8*L1010_0*8~
-AK4*0:0*66*1~
-AK4*0:1*66*1~
-AK4*0:2*66*1~
-AK3*NM1*8*L1010_1*8~
-AK4*1:0*66*1~
-AK4*1:1*66*1~
-AK3*NM1*8*L1010_2*8~
-AK4*2:0*66*1~
-AK5*R*5~
-AK9*R*1*1*0~
-SE*8*2878~
-EOT
+      @@m997 = <<~EDI.gsub!(/\n/, '')
+        ST*997*2878~
+        AK1*HS*293328532~
+        AK2*270*307272179~
+        AK3*NM1*8*L1010_0*8~
+        AK4*0:0*66*1~
+        AK4*0:1*66*1~
+        AK4*0:2*66*1~
+        AK3*NM1*8*L1010_1*8~
+        AK4*1:0*66*1~
+        AK4*1:1*66*1~
+        AK3*NM1*8*L1010_2*8~
+        AK4*2:0*66*1~
+        AK5*R*5~
+        AK9*R*1*1*0~
+        SE*8*2878~
+     EDI
 
 # This should parse into
 # 997 [0]: ST*997*2878~AK1*HS*293328532~A...AK5*R*5~AK9*R*1*1*0~SE*8*2878~
@@ -71,11 +70,8 @@ EOT
 #   AK9 [0]: AK9*R*1*1*0~
 #   SE [0]: SE*8*2878~
 
-      @@m997.gsub!(/\n/,'')
-
       @@p = @@parser.parse('997', @@m997)
     end
-    #@@p.show
     @r = @@p
   end # setup
 
@@ -129,7 +125,9 @@ EOT
   end # test_absent
 
   def test_timing
-    start = Time::now
+    return unless ENV['BENCH']
+
+    start = Time.now
     X12::TEST_REPEAT.times do
       @r = @@parser.parse('997', @@m997)
       test_ST
@@ -139,8 +137,8 @@ EOT
       test_L1010
       test_absent
     end
-    finish = Time::now
-    puts sprintf("Parses per second, 997: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
+    finish = Time.now
+    puts sprintf('Parses per second, 997: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
-end # TestList
+end

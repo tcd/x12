@@ -113,10 +113,6 @@ class Test270FactoryInterchange < Minitest::Test
     @@p ||= X12::Parser.new('270interchange.xml')
   end
 
-  def teardown
-    # Nothing
-  end
-
   def create_270(message, fg_num, mess_num)
     transactionSetControlNumber = "#{fg_num}00#{mess_num}"
     count = 0
@@ -290,12 +286,14 @@ class Test270FactoryInterchange < Minitest::Test
   end # test_all
 
   def test_timing
+    return unless ENV['BENCH']
+
     start = Time.now
     X12::TEST_REPEAT.times do
       test_all
     end
     finish = Time.now
-    puts sprintf("Factories per second, 270interchange: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
+    puts sprintf('Factories per second, 270interchange: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
-end # TestList
+end

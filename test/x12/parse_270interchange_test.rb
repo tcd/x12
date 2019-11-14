@@ -2,8 +2,8 @@
 #     This file is part of the X12Parser library that provides tools to
 #     manipulate X12 messages using Ruby native syntax.
 #
-#     http://x12parser.rubyforge.org 
-#     
+#     http://x12parser.rubyforge.org
+#
 #     Copyright (C) 2008 APP Design, Inc.
 #
 #     This library is free software; you can redistribute it and/or
@@ -30,107 +30,100 @@ class Test270ParseInterchange < Minitest::Test
 
   def setup
     unless @@p
-      @@m=<<-EOT
-ISA*03*user      *01*password  *ZZ*0000000Eliginet*ZZ*CHICAGO BLUES*070724*1726*U*00401*230623206*0*T*:~
-GS*HS*0000000Eliginet*CHICAGO BLUES*20070724*1726*000*X*004010X092A1~
-ST*270*0000~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*LastName*FirstName~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*0000~
-ST*270*0001~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*LastName*FirstName~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*0001~
-ST*270*0002~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*LastName*FirstName~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*0002~
-GE*3*000~
-GS*HS*0000000Eliginet*CHICAGO BLUES*20070724*1726*001*X*004010X092A1~
-ST*270*1000~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*LastName*FirstName~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*1000~
-ST*270*1001~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*LastName*FirstName~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*1001~
-GE*2*001~
-GS*HS*0000000Eliginet*CHICAGO BLUES*20070724*1726*002*X*004010X092A1~
-ST*270*2000~
-BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
-HL*1**20*1~
-NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
-HL*2*1*21*1~
-NM1*1P*1******SV*daw~
-HL*3*2*22*0~
-NM1*IL*1*LastName*FirstName~
-DMG*D8*19700725~
-DTP*307*D8*20070724~
-EQ*60~
-SE*12*2000~
-GE*1*002~
-IEA*3*230623206~
-EOT
-      @@m.gsub!(/\n/,'')
+      @@m = <<~EDI.gsub(/\n/, '')
+        ISA*03*user      *01*password  *ZZ*0000000Eliginet*ZZ*CHICAGO BLUES*070724*1726*U*00401*230623206*0*T*:~
+        GS*HS*0000000Eliginet*CHICAGO BLUES*20070724*1726*000*X*004010X092A1~
+        ST*270*0000~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*LastName*FirstName~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*0000~
+        ST*270*0001~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*LastName*FirstName~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*0001~
+        ST*270*0002~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*LastName*FirstName~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*0002~
+        GE*3*000~
+        GS*HS*0000000Eliginet*CHICAGO BLUES*20070724*1726*001*X*004010X092A1~
+        ST*270*1000~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*LastName*FirstName~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*1000~
+        ST*270*1001~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*LastName*FirstName~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*1001~
+        GE*2*001~
+        GS*HS*0000000Eliginet*CHICAGO BLUES*20070724*1726*002*X*004010X092A1~
+        ST*270*2000~
+        BHT*0022*13*LNKJNFGRWDLR*20070724*1726~
+        HL*1**20*1~
+        NM1*PR*2*RED CROSS*****PI*CHICAGO BLUES~
+        HL*2*1*21*1~
+        NM1*1P*1******SV*daw~
+        HL*3*2*22*0~
+        NM1*IL*1*LastName*FirstName~
+        DMG*D8*19700725~
+        DTP*307*D8*20070724~
+        EQ*60~
+        SE*12*2000~
+        GE*1*002~
+        IEA*3*230623206~
+      EDI
 
       @@p = @@parser.parse('270interchange', @@m)
     end
+
     @r = @@p
-    #@@p.show
+  end
 
-  end # setup
-
-  def teardown
-    # Nothing
-  end # teardown
-
-   def test_ISA_IEA
-     assert_equal('ISA*03*user      *01*password  *ZZ*0000000Eliginet*ZZ*CHICAGO BLUES*070724*1726*U*00401*230623206*0*T*:~', @r.ISA.to_s)
-     assert_equal('0000000Eliginet', @r.ISA.InterchangeSenderId)
-     assert_equal('3', @r.IEA.NumberOfIncludedFunctionalGroups)
-
-   end # test_ST
+  def test_ISA_IEA
+    assert_equal('ISA*03*user      *01*password  *ZZ*0000000Eliginet*ZZ*CHICAGO BLUES*070724*1726*U*00401*230623206*0*T*:~', @r.ISA.to_s)
+    assert_equal('0000000Eliginet', @r.ISA.InterchangeSenderId)
+    assert_equal('3', @r.IEA.NumberOfIncludedFunctionalGroups)
+  end
 
   def test_FG
     fg = @r.FG
@@ -147,7 +140,7 @@ EOT
   def test_ST
     assert_equal('ST*270*1001~', @r.FG[1]._270[1].ST.to_s)
     assert_equal('270', @r.FG[1]._270[1].ST.TransactionSetIdentifierCode)
-  end # test_ST
+  end
 
   def test_L2000A_NM1
     assert_equal('RED CROSS', @r.FG[1]._270[1].L2000A.L2100A.NM1.NameLastOrOrganizationName)
@@ -155,10 +148,10 @@ EOT
 
   def test_L2000C_NM1
     @r.FG[1].with { |fg|
-      fg._270[1].with {|_270|
-        _270.L2000C {|l2000C|
-          l2000C.L2100C {|l2100C|
-            l2100C.NM1 {|nm1|
+      fg._270[1].with { |_270|
+        _270.L2000C { |l2000C|
+          l2000C.L2100C { |l2100C|
+            l2100C.NM1 { |nm1|
               assert_equal('FirstName', nm1.NameFirst)
             }
           }
@@ -172,12 +165,14 @@ EOT
   end
 
   def test_timing
-    start = Time::now
+    return unless ENV['BENCH']
+
+    start = Time.now
     X12::TEST_REPEAT.times do
       @r = @@parser.parse('270interchange', @@m)
     end
-    finish = Time::now
-    puts sprintf("Parses per second, 270interchange: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
+    finish = Time.now
+    puts sprintf('Parses per second, 270interchange: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
-end # TestParse
+end

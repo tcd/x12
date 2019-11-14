@@ -26,75 +26,70 @@ require 'test_helper'
 class Test276Parse < Minitest::Test
 
   # patient is the subscriber
-  MESSAGE1 = "ISA*00*0000000000*00*0000000000*ZZ*610017         *ZZ*T0001799       *030430*1700*U*00401*000000157*0*P*:~
-GS*HB*610017*T0001799*20030430*1700190*1570001*X*004010X092A1~ST*276*0046~
-BHT*0010*13**20030109~
-HL*1**20*1~
-NM1*PR*2*PAYER NAME*****21*9012345918341~
-PER*IC*PROVIDER CONTACT INFO*TE*6145551212~
-HL*2*1*21*1~
-NM1*41*2******46*111222333~
-HL*3*2*19*1~
-NM1*1P*2*PROVIDER NAME*****FI*FEDERAL TAX ID~
-NM1*1P*2*PROVIDER NAME*****XX*NPI NUMBER~
-NM1*1P*2*PROVIDER NAME*****SV*PROVIDER NUMBER~
-HL*4*3*22*0~
-DMG*D8*19191029*M~
-NM1*QC*1*DOE*JOHN****MI*R11056841~
-TRN*1*500~
-REF*1K*940922~
-REF*BLT*131~
-AMT*T3*28.00~
-DTP*232*RD8*20020501-20020501~
-SE*18*0046~
-GE*1*1570001~
-IEA*1*000000157~"
+  MESSAGE1 = <<~EDI.gsub(/\n/, '')
+    ISA*00*0000000000*00*0000000000*ZZ*610017         *ZZ*T0001799       *030430*1700*U*00401*000000157*0*P*:~
+    GS*HB*610017*T0001799*20030430*1700190*1570001*X*004010X092A1~ST*276*0046~
+    BHT*0010*13**20030109~
+    HL*1**20*1~
+    NM1*PR*2*PAYER NAME*****21*9012345918341~
+    PER*IC*PROVIDER CONTACT INFO*TE*6145551212~
+    HL*2*1*21*1~
+    NM1*41*2******46*111222333~
+    HL*3*2*19*1~
+    NM1*1P*2*PROVIDER NAME*****FI*FEDERAL TAX ID~
+    NM1*1P*2*PROVIDER NAME*****XX*NPI NUMBER~
+    NM1*1P*2*PROVIDER NAME*****SV*PROVIDER NUMBER~
+    HL*4*3*22*0~
+    DMG*D8*19191029*M~
+    NM1*QC*1*DOE*JOHN****MI*R11056841~
+    TRN*1*500~
+    REF*1K*940922~
+    REF*BLT*131~
+    AMT*T3*28.00~
+    DTP*232*RD8*20020501-20020501~
+    SE*18*0046~
+    GE*1*1570001~
+    IEA*1*000000157~
+  EDI
 
   # patient and subscriber are different
-  MESSAGE2 = "ISA*00*0000000000*00*0000000000*ZZ*610017         *ZZ*T0001799       *030430*1700*U*00401*000000157*0*P*:~
-GS*HB*610017*T0001799*20030430*1700190*1570001*X*004010X092A1~
-ST*276*0046~
-BHT*0010*13**20030109~
-HL*1**20*1~
-NM1*PR*2* PAYER NAME ****21*9012345918341~
-PER*IC*PROVIDER CONTACT INFO*TE*6145551212~
-HL*2*1*21*1~
-NM1*41*2******46*111222333~
-HL*3*2*19*1~
-NM1*1P*2*PROVIDER NAME*****FI*FEDERAL TAX ID~
-NM1*1P*2*PROVIDER NAME*****XX*NPI NUMBER~
-NM1*1P*2*PROVIDER NAME*****SV*PROVIDER NUMBER~
-HL*4*3*22*1~
-NM1*IL*1*DOE*JOHN****MI*MEMBER ID~
-TRN*1*500~
-HL*5*4*23~
-DMG*D8*DATE OF BIRTH*F~
-NM1*QC*1*DOE*JANE~
-TRN*1*500~
-AMT*T3*68.69~
-DTP*232*RD8*20021016-20021016~
-SE*18*0046~
-GE*1*1570001~
-IEA*1*000000157~"
+  MESSAGE2 = <<~EDI.gsub(/\n/, '')
+    ISA*00*0000000000*00*0000000000*ZZ*610017         *ZZ*T0001799       *030430*1700*U*00401*000000157*0*P*:~
+    GS*HB*610017*T0001799*20030430*1700190*1570001*X*004010X092A1~
+    ST*276*0046~
+    BHT*0010*13**20030109~
+    HL*1**20*1~
+    NM1*PR*2* PAYER NAME ****21*9012345918341~
+    PER*IC*PROVIDER CONTACT INFO*TE*6145551212~
+    HL*2*1*21*1~
+    NM1*41*2******46*111222333~
+    HL*3*2*19*1~
+    NM1*1P*2*PROVIDER NAME*****FI*FEDERAL TAX ID~
+    NM1*1P*2*PROVIDER NAME*****XX*NPI NUMBER~
+    NM1*1P*2*PROVIDER NAME*****SV*PROVIDER NUMBER~
+    HL*4*3*22*1~
+    NM1*IL*1*DOE*JOHN****MI*MEMBER ID~
+    TRN*1*500~
+    HL*5*4*23~
+    DMG*D8*DATE OF BIRTH*F~
+    NM1*QC*1*DOE*JANE~
+    TRN*1*500~
+    AMT*T3*68.69~
+    DTP*232*RD8*20021016-20021016~
+    SE*18*0046~
+    GE*1*1570001~
+    IEA*1*000000157~
+  EDI
 
   def setup
     # result message that we are building and will test against
     @message1 = MESSAGE1
-    # make the result usable in the tests
-    @message1.gsub!(/\n/,'')
-
     @parser = X12::Parser.new('276.xml')
     @r = @parser.parse('276', @message1)
   end
 
-
-  def teardown
-    #nothing
-  end
-
-
   def test_basic
-
+    skip()
   end
 
   def test_header
@@ -138,12 +133,14 @@ IEA*1*000000157~"
   end
 
   def test_timing
-    start = Time::now
+    return unless ENV['BENCH']
+
+    start = Time.now
     X12::TEST_REPEAT.times do
       @r = @parser.parse('276', @message1)
     end
-    finish = Time::now
-    puts sprintf("Parses per second, 276: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
+    finish = Time.now
+    puts sprintf('Parses per second, 276: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
 end

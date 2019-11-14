@@ -70,12 +70,14 @@ class Test837pParse < Minitest::Test
   end
 
   def test_timing
-    start = Time::now
+    return unless ENV['BENCH']
+
+    start = Time.now
     X12::TEST_REPEAT.times do
       @r = @parser.parse('837p', @msg[1])
     end
-    finish = Time::now
-    puts sprintf("Parses per second, 837p: %.2f, elapsed: %.1f", X12::TEST_REPEAT.to_f/(finish-start), finish-start)
-  end # test_timing
-end
+    finish = Time.now
+    puts sprintf('Parses per second, 837p: %.2f, elapsed: %.1f', X12::TEST_REPEAT.to_f/(finish-start), finish-start)
+  end
 
+end
