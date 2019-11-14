@@ -99,7 +99,7 @@ module X12
     end
 
     def parse_table(e)
-      name, min, max, type, required, validation = parse_attributes(e)
+      name, _min, _max, _type, _required, _validation = parse_attributes(e)
 
       content = e.find('Entry').inject({}) { |t, entry|
         t[entry.attributes['name']] = entry.attributes['value']
@@ -109,7 +109,7 @@ module X12
     end
 
     def parse_segment(e)
-      name, min, max, type, required, validation = parse_attributes(e)
+      name, min, max, _type, _required, _validation = parse_attributes(e)
 
       fields = e.find('Field').inject([]) { |f, field|
         f << parse_field(field)
@@ -118,7 +118,7 @@ module X12
     end
 
     def parse_composite(e)
-      name, min, max, type, required, validation = parse_attributes(e)
+      name, _min, _max, _type, _required, _validation = parse_attributes(e)
 
       fields = e.find('Field').inject([]) { |f, field|
         f << parse_field(field)
@@ -127,7 +127,7 @@ module X12
     end
 
     def parse_loop(e)
-      name, min, max, type, required, validation = parse_attributes(e)
+      name, min, max, _type, _required, _validation = parse_attributes(e)
 
       components = e.find('*').to_a.inject([]) { |r, element|
         r << case element.name
