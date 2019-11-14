@@ -1,0 +1,28 @@
+AllCops:
+  TargetRubyVersion: 2.6.0
+
+Style/Documentation:
+  Enabled: true
+  Exclude:
+    - 'test/**/*.rb'
+
+Style/DocumentationMethod:
+  Enabled: true
+  Exclude:
+    - 'test/**/*.rb'
+
+# Don't leave calls to pry lying around.
+Lint/Debugger:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 150
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/FormatString:
+  EnforcedStyle: sprintf
+
+Style/CommentedKeyword:
+  Enabled: false
