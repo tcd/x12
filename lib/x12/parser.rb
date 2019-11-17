@@ -20,6 +20,9 @@ module X12
     ].freeze
 
     # Creates a parser out of a definition.
+    #
+    # @param file_name [String]
+    # @return [void]
     def initialize(file_name)
       save_definition = @x12_definition if defined? @x12_definition
 

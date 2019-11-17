@@ -1,13 +1,16 @@
 module X12
 
-  # Base class for Segment, Composite, and Loop.
+  # Base class for {Segment}, {Composite}, and {Loop}.
   # Contains setable segment_separator, field_separator, and composite_separator fields.
   class Base
 
     attr_reader   :name, :repeats
-    attr_accessor :segment_separator, :field_separator, :composite_separator, :next_repeat, :parsed_str, :nodes
+    attr_accessor :segment_separator, :field_separator, :composite_separator
+    attr_accessor :next_repeat, :parsed_str, :nodes
 
     # Creates a new base element with a given name, array of sub-elements, and array of repeats if any.
+    #
+    # @return [void]
     def initialize(name, arr, repeats = nil)
       @nodes = arr
       @name = name
@@ -23,12 +26,15 @@ module X12
     end
 
     # Formats a printable string containing the base element's content.
+    #
     # @return [String]
     def inspect
       "#{self.class.to_s.sub(/^.*::/, '')} (#{name}) #{repeats} #{super.inspect[1..-2]} =<#{parsed_str}, #{next_repeat.inspect}> ".gsub(/\\*\"/, '"')
     end
 
     # Prints a tree-like representation of the element.
+    #
+    # @return [void]
     def show(ind = '')
       count = 0
       self.to_a.each{|i|
@@ -48,8 +54,8 @@ module X12
       }
     end
 
-    # Try to parse the current element one more time if required. Returns the rest of the string
-    # or the same string if no more repeats are found or required.
+    # Try to parse the current element one more time if required.
+    # Returns the rest of the string or the same string if no more repeats are found or required.
     def do_repeats(s)
       if self.repeats.end > 1
         possible_repeat = self.dup
@@ -63,6 +69,8 @@ module X12
     end
 
     # Empty out the current element.
+    #
+    # @return [void]
     def set_empty!
       @next_repeat = nil
       @parsed_str = nil
@@ -170,7 +178,8 @@ module X12
       self.nodes.find{ |i| i.has_content? }
     end
 
-    # Adds a repeat to a segment or loop. Returns a new segment/loop or self if empty.
+    # Adds a repeat to a segment or loop.
+    # Returns a new segment/loop or self if empty.
     def repeat
       res = if self.has_content? # Do not repeat an empty segment
               last_repeat = self.to_a[-1]

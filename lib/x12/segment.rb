@@ -2,8 +2,13 @@ module X12
 
   # Implements a segment containing fields or composites
   class Segment < Base
+    attr_accessor :fields
+
     # Parses this segment out of a string, puts the match into value,
     # returns the rest of the string - nil if cannot parse.
+    #
+    # @param str [String]
+    # @return [nil]
     def parse(str)
       s = str
       # puts "Parsing segment #{name} from #{s} with regexp [#{regexp.source}]"
