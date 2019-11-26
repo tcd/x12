@@ -1,8 +1,15 @@
 # X12
 
+[![Gem](https://img.shields.io/gem/v/tcd_x12)][gem]
 ![Ruby Version](https://img.shields.io/badge/Ruby->=1.9.1-red.svg)
-[![Gem Version](https://badge.fury.io/rb/tcd_x12.svg)](https://badge.fury.io/rb/tcd_x12)
-![GitHub](https://img.shields.io/github/license/tcd/x12)
+[![Inline docs](http://inch-ci.org/github/tcd/x12.svg?branch=master)][inch-ci]
+[![License](https://img.shields.io/github/license/tcd/x12)][license]
+[![Documentation](http://img.shields.io/badge/docs-rubydoc.info-blue.svg)][docs]
+
+[gem]: https://rubygems.org/gems/tcd_x12
+[inch-ci]: http://inch-ci.org/github/tcd/x12
+[license]: https://github.com/tcd/x12/blob/master/LICENSE
+[docs]: https://www.rubydoc.info/gems/tcd_x12/1.6.2
 
 Changes welcome, especially new document types or better tests.
 

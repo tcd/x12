@@ -28,23 +28,13 @@
 
     <Loop name="L1010" max="100000">
       <Segment name="PO1" max="1" required="y" />
-    </Loop>
-    <Loop name="L1020" max="1000">
-      <Segment name="PID" max="1" required="y" />
-    </Loop>
-    <Loop name="L1030" max="104">
-      <Segment name="ACK" max="1" required="y" />
-    </Loop>
-
-    <!-- <Loop name="L1020" max="100000">
-      <Segment name="PO1" max="1" required="y" />
-      <Loop name="L1030" min="1">
+      <Loop name="L1020" min="1">
         <Segment name="PID" max="1" required="n" />
       </Loop>
       <Loop name="L1030" max="104">
         <Segment name="ACK" max="1" required="y" />
       </Loop>
-    </Loop> -->
+    </Loop>
 
     <Loop name="L1040" max="1">
       <Segment name="CTT" max="1" required="y" />
