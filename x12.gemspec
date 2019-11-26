@@ -11,8 +11,14 @@ Gem::Specification.new do |gem|
   gem.summary       = 'A gem to handle parsing and generation of ANSI X12 documents'
   gem.homepage      = 'https://github.com/tcd/x12'
   gem.licenses      = 'GPL-2.0-or-later'
-  gem.metadata['homepage_uri'] = gem.homepage
-  gem.metadata['source_code_uri'] = 'https://github.com/tcd/x12'
+
+  spec.metadata = {
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => spec.homepage,
+    'documentation_uri' => "https://www.rubydoc.info/gems/tcd_x12/#{spec.version}",
+    'changelog_uri' => 'https://github.com/tcd/tcd_x12/blob/master/CHANGELOG.md',
+    'yard.run' => 'yri' # use "yard" to build full HTML docs.
+  }
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
