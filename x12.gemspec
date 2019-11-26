@@ -13,9 +13,9 @@ Gem::Specification.new do |gem|
   gem.licenses      = 'GPL-2.0-or-later'
 
   spec.metadata = {
-    'homepage_uri' => spec.homepage,
-    'source_code_uri' => spec.homepage,
-    'documentation_uri' => "https://www.rubydoc.info/gems/tcd_x12/#{spec.version}",
+    'homepage_uri' => gem.homepage,
+    'source_code_uri' => gem.homepage,
+    'documentation_uri' => "https://www.rubydoc.info/gems/tcd_x12/#{gem.version}",
     'changelog_uri' => 'https://github.com/tcd/tcd_x12/blob/master/CHANGELOG.md',
     'yard.run' => 'yri' # use "yard" to build full HTML docs.
   }
