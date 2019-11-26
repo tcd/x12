@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://github.com/tcd/x12'
   gem.licenses      = 'GPL-2.0-or-later'
 
-  spec.metadata = {
+  gem.metadata = {
     'homepage_uri' => gem.homepage,
     'source_code_uri' => gem.homepage,
     'documentation_uri' => "https://www.rubydoc.info/gems/tcd_x12/#{gem.version}",
