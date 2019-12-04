@@ -40,20 +40,22 @@ module X12
       @x12_definition = X12::XMLDefinitions.new(str)
 
       # Populate fields in all segments found in all the loops
-      @x12_definition[X12::Loop].each_pair{ |k, v|
-        # puts "Populating definitions for loop #{k}"
-        process_loop(v)
-      } if @x12_definition[X12::Loop]
+      if @x12_definition[X12::Loop]
+        @x12_definition[X12::Loop].each_pair do |k, v|
+          # puts "Populating definitions for loop #{k}"
+          process_loop(v)
+        end
+      end
 
       # Merge the newly parsed definition into a saved one, if any.
       if save_definition
-        @x12_definition.keys.each { |t|
+        @x12_definition.keys.each do |t|
           save_definition[t] ||= {}
-          @x12_definition[t].keys.each { |u|
+          @x12_definition[t].keys.each do |u|
             save_definition[t][u] = @x12_definition[t][u]
-          }
+          end
           @x12_definition = save_definition
-        }
+        end
       end
 
       # puts PP.pp(self, '')
