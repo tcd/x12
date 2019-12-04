@@ -72,17 +72,17 @@ module X12
 
     # Make an empty loop to be filled out with information.
     def factory(loop_name)
-      loop = @x12_definition[X12::Loop][loop_name]
-      throw Exception.new("Cannot find a definition for loop #{loop_name}") unless loop
-      loop = loop.dup
-      return loop
+      looop = @x12_definition[X12::Loop][loop_name]
+      throw Exception.new("Cannot find a definition for loop #{loop_name}") unless looop
+      looop = looop.dup
+      return looop
     end
 
     private
 
     # Recursively scan the loop and instantiate fields' definitions for all its segments.
-    def process_loop(loop)
-      loop.nodes.each do |i|
+    def process_loop(looop)
+      looop.nodes.each do |i|
         case i
           when X12::Loop then process_loop(i)
           when X12::Segment then process_segment(i) unless i.nodes.size > 0
