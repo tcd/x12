@@ -30,8 +30,7 @@ module X12
     #
     # @return [String]
     def render
-      self.to_a.inject('') { |repeat_str, i|
-        if i.repeats.begin < 1 and !i.has_content?
+      self.to_a.inject('') do |repeat_str, i|
           # Skip optional empty segments
           repeat_str
         else
@@ -41,7 +40,7 @@ module X12
             (j.required or nodes_str != '' or field != '') ? field_separator + field + nodes_str : nodes_str
           end + segment_separator
         end
-      }
+      end
     end
 
     # Returns a regexp that matches this particular segment.

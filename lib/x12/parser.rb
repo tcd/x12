@@ -102,17 +102,14 @@ module X12
       else
         segment_definition = @x12_definition[X12::Segment][segment.name]
       end
-      segment_definition.nodes.each_index { |i|
+      segment_definition.nodes.each_index do |i|
         segment.nodes[i] = segment_definition.nodes[i]
         # Make sure we have the validation table if any for this field. Try to read one in if missing.
         table = segment.nodes[i].validation
         if table
           unless @x12_definition[X12::Table] && @x12_definition[X12::Table][table]
             initialize(table + '.xml')
-            throw Exception.new("Cannot find a definition for table #{table}") unless @x12_definition[X12::Table] && @x12_definition[X12::Table][table]
-          end
-        end
-      }
+      end
     end
 
   end
