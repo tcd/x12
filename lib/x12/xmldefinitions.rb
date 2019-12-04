@@ -1,3 +1,5 @@
+require 'libxml'
+
 module X12
   # A class for parsing X12 message definition expressed in XML format.
   class XMLDefinitions < Hash

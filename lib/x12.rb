@@ -1,6 +1,3 @@
-require 'libxml'
-require 'pp'
-
 require 'x12/logger'
 require 'x12/error'
 require 'x12/base'
