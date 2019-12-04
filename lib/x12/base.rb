@@ -53,16 +53,19 @@ module X12
 
     # Try to parse the current element one more time if required.
     # Returns the rest of the string or the same string if no more repeats are found or required.
-    def do_repeats(s)
+    #
+    # @param str [String]
+    # @return [String]
+    def do_repeats(str)
       if self.repeats.end > 1
         possible_repeat = self.dup
-        p_s = possible_repeat.parse(s)
+        p_s = possible_repeat.parse(str)
         if p_s
-          s = p_s
+          str = p_s
           self.next_repeat = possible_repeat
         end
       end
-      s
+      str
     end
 
     # Empty out the current element.
@@ -89,7 +92,7 @@ module X12
 
     # Recursively find a sub-element, which also has to be of type Base.
     #
-    # @return [Base,X12::EMPTY]
+    # @return [X12::Base,X12::EMPTY]
     def find(e)
       # puts "Finding [#{e}] in #{self.class} #{name}"
       case self
