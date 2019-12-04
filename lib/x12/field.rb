@@ -29,7 +29,7 @@ module X12
 
     def render
       unless @content
-        @content = $1 if self.type =~ /"(.*)"/ # If it's a constant
+        @content = Regexp.last_match(1) if self.type =~ /"(.*)"/ # If it's a constant
       end
       rendered = @content || ''
       rendered = rendered.ljust(@min_length) if @required
@@ -49,7 +49,7 @@ module X12
     # Returns simplified string regexp for this field, takes field separator and segment separator as arguments
     def simple_regexp(field_sep, segment_sep)
       case self.type
-      when /"(.*)"/ then $1
+      when /"(.*)"/ then Regexp.last_match(1)
       else "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]*"
       end # case
     end
@@ -60,7 +60,7 @@ module X12
       when 'I'      then "\\d{#{@min_length},#{@max_length}}"
       when 'S'      then "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]{#{@min_length},#{@max_length}}"
       when /C.*/    then "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]{#{@min_length},#{@max_length}}"
-      when /"(.*)"/ then $1
+      when /"(.*)"/ then Regexp.last_match(1)
       else "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]*"
       end
     end
