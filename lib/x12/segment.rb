@@ -33,10 +33,10 @@ module X12
           repeat_str
         else
           # Have to render no matter how empty
-          repeat_str += i.name + i.nodes.reverse.inject('') { |nodes_str, j|
+          repeat_str += i.name + i.nodes.reverse.inject('') do |nodes_str, j|
             field = j.render
             (j.required or nodes_str != '' or field != '') ? field_separator + field + nodes_str : nodes_str
-          } + segment_separator
+          end + segment_separator
         end
       }
     end
@@ -46,11 +46,11 @@ module X12
       unless defined? @regexp
         if self.nodes.find { |i| i.type =~ /^".+"$/ }
           # It's a very special regexp if there are constant fields
-          re_str = self.nodes.inject("^#{name}#{Regexp.escape(field_separator)}") { |s, i|
+          re_str = self.nodes.inject("^#{name}#{Regexp.escape(field_separator)}") do |s, i|
             field_re = i.simple_regexp(field_separator, segment_separator) + Regexp.escape(field_separator) + '?'
             field_re = "(#{field_re})?" unless i.required
             s + field_re
-          } + Regexp.escape(segment_separator)
+          end + Regexp.escape(segment_separator)
           @regexp = Regexp.new(re_str)
         else
           # Simple match
@@ -66,9 +66,7 @@ module X12
       # puts "Finding field [#{str}] in #{self.class} #{name}"
       # If there is such a field to begin with
       field_num = nil
-      self.nodes.each_index{ |i|
-        field_num = i if str == self.nodes[i].name
-      }
+      self.nodes.each_index { |i| field_num = i if str == self.nodes[i].name }
       return EMPTY if field_num.nil?
       # puts field_num
 
@@ -84,9 +82,7 @@ module X12
     # provides loopong through multiple segments within the loop
     def each
       res = self.to_a
-      0.upto(res.length - 1) do |x|
-        yield res[x]
-      end
+      0.upto(res.length - 1) { |x| yield res[x] }
     end
 
   end

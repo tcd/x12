@@ -21,10 +21,10 @@ module X12
     def parse(str)
       # puts "Parsing loop #{name}: "+str
       s = str
-      nodes.each{|i|
+      nodes.each do |i|
         m = i.parse(s)
         s = m if m
-      }
+      end
       if str == s
         return nil
       else
@@ -38,11 +38,11 @@ module X12
     # Render all components of this loop as string suitable for EDI.
     def render
       if self.has_content?
-        self.to_a.inject(''){|loop_str, i|
-          loop_str += i.nodes.inject(''){|nodes_str, j|
+        self.to_a.inject('') do |loop_str, i|
+          loop_str += i.nodes.inject('') do |nodes_str, j|
             nodes_str += j.render
-          }
-        }
+          end
+        end
       else
         ''
       end

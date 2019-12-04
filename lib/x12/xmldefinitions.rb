@@ -101,35 +101,35 @@ module X12
     def parse_table(e)
       name, _min, _max, _type, _required, _validation = parse_attributes(e)
 
-      content = e.find('Entry').inject({}) { |t, entry|
+      content = e.find('Entry').inject({}) do |t, entry|
         t[entry.attributes['name']] = entry.attributes['value']
         t
-      }
+      end
       Table.new(name, content)
     end
 
     def parse_segment(e)
       name, min, max, _type, _required, _validation = parse_attributes(e)
 
-      fields = e.find('Field').inject([]) { |f, field|
+      fields = e.find('Field').inject([]) do |f, field|
         f << parse_field(field)
-      }
+      end
       Segment.new(name, fields, Range.new(min, max))
     end
 
     def parse_composite(e)
       name, _min, _max, _type, _required, _validation = parse_attributes(e)
 
-      fields = e.find('Field').inject([]) { |f, field|
+      fields = e.find('Field').inject([]) do |f, field|
         f << parse_field(field)
-      }
+      end
       Composite.new(name, fields)
     end
 
     def parse_loop(e)
       name, min, max, _type, _required, _validation = parse_attributes(e)
 
-      components = e.find('*').to_a.inject([]) { |r, element|
+      components = e.find('*').to_a.inject([]) do |r, element|
         r << case element.name
              when /loop/i
                parse_loop(element)
@@ -138,7 +138,7 @@ module X12
              else
                throw Exception.new("Cannot recognize syntax for: #{element.inspect} in loop #{e.inspect}")
              end
-      }
+      end
       Loop.new(name, components, Range.new(min, max))
     end
 

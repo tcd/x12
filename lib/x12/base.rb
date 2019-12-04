@@ -37,21 +37,17 @@ module X12
     # @return [void]
     def show(ind = '')
       count = 0
-      self.to_a.each{|i|
+      self.to_a.each do |i|
         # puts "#{ind}#{i.name} #{i.object_id} #{i.super.object_id} [#{count}]: #{i.parsed_str} #{i.super.class}"
         puts "#{ind}#{i.name} [#{count}]: #{i.to_s.sub(/^(.{30})(.*?)(.{30})$/, '\1...\3')}"
         # Force parsing a segment
         if i.is_a?(X12::Segment) && i.nodes[0]
           i.find_field(i.nodes[0].name)
         end
-        i.nodes.each{|j|
-          case
-          when j.is_a?(X12::Base)  then j.show(ind + '  ')
-          when j.is_a?(X12::Field) then puts "#{ind}  #{j.name} -> '#{j}'"
-          end
-        }
+        i.nodes.each do |j|
+        end
         count += 1
-      }
+      end
     end
 
     # Try to parse the current element one more time if required.
@@ -82,10 +78,10 @@ module X12
       n = clone
       n.set_empty!
       n.nodes = n.nodes.dup
-      n.nodes.each_index{|i|
+      n.nodes.each_index do |i|
         n.nodes[i] = n.nodes[i].dup
         n.nodes[i].set_empty!
-      }
+      end
       # puts "Duped #{self.class} #{self.name} #{self.object_id} #{super.object_id} -> #{n.name} #{n.super.object_id} #{n.object_id} "
       n
     end
@@ -99,11 +95,9 @@ module X12
         res = nodes.find { |i| e == i.name }
         return res if res
         # Depth now
-        nodes.each{ |i|
+        nodes.each do |i|
           res = i.find(e) if i.is_a?(X12::Loop)
-          return res unless res.nil? or EMPTY == res # otherwise keep looping
-        }
-        when X12::Segment
+        end
         return find_field(e).to_s
       end
       return EMPTY
