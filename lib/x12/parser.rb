@@ -66,7 +66,7 @@ module X12
     def parse(loop_name, str)
       looop = @x12_definition[X12::Loop][loop_name]
       # puts "Loops to parse #{@x12_definition[X12::Loop].keys}"
-      throw Exception.new("Cannot find a definition for loop #{loop_name}") unless looop
+      throw X12::Error.new("Cannot find a definition for loop #{loop_name}") unless looop
       looop = looop.dup
       looop.parse(str)
       return looop
@@ -75,7 +75,7 @@ module X12
     # Make an empty loop to be filled out with information.
     def factory(loop_name)
       looop = @x12_definition[X12::Loop][loop_name]
-      throw Exception.new("Cannot find a definition for loop #{loop_name}") unless looop
+      throw X12::Error.new("Cannot find a definition for loop #{loop_name}") unless looop
       looop = looop.dup
       return looop
     end
@@ -100,7 +100,7 @@ module X12
         # Try to find it in a separate file if missing from the @x12_definition structure
         initialize(segment.name+'.xml')
         segment_definition = @x12_definition[X12::Segment][segment.name]
-        throw Exception.new("Cannot find a definition for segment #{segment.name}") unless segment_definition
+        throw X12::Error.new("Cannot find a definition for segment #{segment.name}") unless segment_definition
       else
         segment_definition = @x12_definition[X12::Segment][segment.name]
       end
@@ -111,6 +111,11 @@ module X12
         if table
           unless @x12_definition[X12::Table] && @x12_definition[X12::Table][table]
             initialize(table + '.xml')
+            unless @x12_definition[X12::Table] && @x12_definition[X12::Table][table]
+              throw X12::Error.new("Cannot find a definition for table #{table}")
+            end
+          end
+        end
       end
     end
 

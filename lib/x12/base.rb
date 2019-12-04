@@ -141,11 +141,11 @@ module X12
         case self
         when X12::Segment
           res = find_field(str)
-          throw Exception.new("No field '#{str}' in segment '#{self.name}'") if EMPTY == res
+          throw X12::MethodMissingError.new("No field '#{str}' in segment '#{self.name}'") if res == X12::EMPTY
           res.content = args[0].to_s
           # puts res.inspect
         else
-          throw Exception.new("Illegal assignment to #{meth} of #{self.class}")
+          throw X12::MethodMissingError.new("Illegal assignment to #{meth} of #{self.class}")
         end
       else
         # Retrieval
@@ -166,7 +166,7 @@ module X12
       if block_given?
         yield self
       else
-        throw Exception.new("Method 'with' requires a block.")
+        throw X12::Error.new("Method 'with' requires a block.")
       end
     end
 

@@ -82,11 +82,11 @@ module X12
     # @param e [LibXML::XML::Node]
     # @return [Multiple Values]
     def parse_attributes(e)
-      throw Exception.new("No name attribute found for : #{e.inspect}")          unless name = e.attributes['name']
-      throw Exception.new("Cannot parse attribute 'min' for: #{e.inspect}")      unless min = parse_int(e.attributes['min'])
-      throw Exception.new("Cannot parse attribute 'max' for: #{e.inspect}")      unless max = parse_int(e.attributes['max'])
-      throw Exception.new("Cannot parse attribute 'type' for: #{e.inspect}")     unless type = parse_type(e.attributes['type'])
-      throw Exception.new("Cannot parse attribute 'required' for: #{e.inspect}") if (required = parse_boolean(e.attributes['required'])).nil?
+      throw X12::Error.new("No name attribute found for : #{e.inspect}")          unless (name = e.attributes['name'])
+      throw X12::Error.new("Cannot parse attribute 'min' for: #{e.inspect}")      unless (min  = parse_int(e.attributes['min']))
+      throw X12::Error.new("Cannot parse attribute 'max' for: #{e.inspect}")      unless (max  = parse_int(e.attributes['max']))
+      throw X12::Error.new("Cannot parse attribute 'type' for: #{e.inspect}")     unless (type = parse_type(e.attributes['type']))
+      throw X12::Error.new("Cannot parse attribute 'required' for: #{e.inspect}") if (required = parse_boolean(e.attributes['required'])).nil?
 
       validation = e.attributes['validation']
       min = 1 if required && min < 1
@@ -156,7 +156,7 @@ module X12
              when /segment/i
                parse_segment(element)
              else
-               throw Exception.new("Cannot recognize syntax for: #{element.inspect} in loop #{e.inspect}")
+               throw X12::Error.new("Cannot recognize syntax for: #{element.inspect} in loop #{e.inspect}")
              end
       end
       Loop.new(name, components, Range.new(min, max))
