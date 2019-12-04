@@ -53,7 +53,7 @@ module X12
              when nil
                'string'
              when /^C.+$/
-               s
+               str
              when /^i(nt(eger)?)?$/i
                'int'
              when /^l(ong)?$/i
