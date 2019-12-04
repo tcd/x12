@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
     'source_code_uri' => gem.homepage,
     'documentation_uri' => "https://www.rubydoc.info/gems/tcd_x12/#{gem.version}",
     'changelog_uri' => 'https://github.com/tcd/tcd_x12/blob/master/CHANGELOG.md',
-    'yard.run' => 'yri' # use "yard" to build full HTML docs.
+    'yard.run' => 'yri', # use "yard" to build full HTML docs.
   }
 
   # Specify which files should be added to the gem when it is released.
