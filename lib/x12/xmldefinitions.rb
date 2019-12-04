@@ -3,7 +3,9 @@ module X12
   class XMLDefinitions < Hash
 
     # Parse definitions out of XML file.
+    #
     # @param str [String]
+    # @return [void]
     def initialize(str)
       doc = LibXML::XML::Document.string(str)
       definitions = doc.root.name =~ /^Definition$/i ? doc.root.find('*').to_a : [doc.root]
@@ -27,8 +29,10 @@ module X12
 
     private
 
-    def parse_boolean(s)
-      return case s
+    # @param str [String]
+    # @return [Boolean,nil]
+    def parse_boolean(str)
+      return case str
              when nil
                false
              when ''
@@ -42,8 +46,10 @@ module X12
              end
     end
 
-    def parse_type(s)
-      return case s
+    # @param str [String]
+    # @return [String,nil]
+    def parse_type(str)
+      return case str
              when nil
                'string'
              when /^C.+$/
@@ -61,16 +67,20 @@ module X12
              end
     end
 
-    def parse_int(s)
-      return case s
+    # @param str [String]
+    # @return [Integer,nil]
+    def parse_int(str)
+      return case str
              when nil then 0
-             when /^\d+$/ then s.to_i
+             when /^\d+$/ then str.to_i
              when /^inf(inite)?$/ then 999_999
              else
                nil
              end
     end
 
+    # @param e [LibXML::XML::Node]
+    # @return [Multiple Values]
     def parse_attributes(e)
       throw Exception.new("No name attribute found for : #{e.inspect}")          unless name = e.attributes['name']
       throw Exception.new("Cannot parse attribute 'min' for: #{e.inspect}")      unless min = parse_int(e.attributes['min'])
@@ -85,6 +95,8 @@ module X12
       return name, min, max, type, required, validation
     end
 
+    # @param e [LibXML::XML::Node]
+    # @return [X12::Field]
     def parse_field(e)
       name, min, max, type, required, validation = parse_attributes(e)
 
@@ -98,6 +110,8 @@ module X12
       Field.new(name, type, required, min, max, validation)
     end
 
+    # @param e [LibXML::XML::Node]
+    # @return [X12::Table]
     def parse_table(e)
       name, _min, _max, _type, _required, _validation = parse_attributes(e)
 
@@ -108,6 +122,8 @@ module X12
       Table.new(name, content)
     end
 
+    # @param e [LibXML::XML::Node]
+    # @return [X12::Segment]
     def parse_segment(e)
       name, min, max, _type, _required, _validation = parse_attributes(e)
 
@@ -117,6 +133,8 @@ module X12
       Segment.new(name, fields, Range.new(min, max))
     end
 
+    # @param e [LibXML::XML::Node]
+    # @return [X12::Composite]
     def parse_composite(e)
       name, _min, _max, _type, _required, _validation = parse_attributes(e)
 
@@ -126,6 +144,8 @@ module X12
       Composite.new(name, fields)
     end
 
+    # @param e [LibXML::XML::Node]
+    # @return [X12::Loop]
     def parse_loop(e)
       name, min, max, _type, _required, _validation = parse_attributes(e)
 

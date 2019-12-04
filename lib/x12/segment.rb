@@ -2,13 +2,14 @@ module X12
 
   # Implements a segment containing fields or composites
   class Segment < Base
+    # @return [Array<X12::Field>]
     attr_accessor :fields
 
-    # Parses this segment out of a string, puts the match into value,
-    # returns the rest of the string - nil if cannot parse.
+    # Parses this segment out of a string, puts the match into value.
+    # Returns the rest of the string - `nil` if cannot parse.
     #
     # @param str [String]
-    # @return [nil]
+    # @return [String,nil]
     def parse(str)
       s = str
       # puts "Parsing segment #{name} from #{s} with regexp [#{regexp.source}]"
@@ -26,6 +27,8 @@ module X12
     end
 
     # Render all components of this segment as string suitable for EDI.
+    #
+    # @return [String]
     def render
       self.to_a.inject('') { |repeat_str, i|
         if i.repeats.begin < 1 and !i.has_content?
@@ -42,6 +45,8 @@ module X12
     end
 
     # Returns a regexp that matches this particular segment.
+    #
+    # @return [Regexp]
     def regexp
       unless defined? @regexp
         if self.nodes.find { |i| i.type =~ /^".+"$/ }
@@ -62,6 +67,9 @@ module X12
     end
 
     # Finds a field in the segment. Returns EMPTY if not found.
+    #
+    # @param str [String]
+    # @return [X12::Base,X12::EMPTY]
     def find_field(str)
       # puts "Finding field [#{str}] in #{self.class} #{name}"
       # If there is such a field to begin with
@@ -79,7 +87,7 @@ module X12
       return self.nodes[field_num]
     end
 
-    # provides loopong through multiple segments within the loop
+    # Provides looping through multiple segments within the loop.
     def each
       res = self.to_a
       0.upto(res.length - 1) { |x| yield res[x] }

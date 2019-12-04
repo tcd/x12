@@ -34,6 +34,7 @@ module X12
 
     # Prints a tree-like representation of the element.
     #
+    # @param ind [String] ('')
     # @return [void]
     def show(ind = '')
       count = 0
@@ -87,6 +88,8 @@ module X12
     end
 
     # Recursively find a sub-element, which also has to be of type Base.
+    #
+    # @return [Base,X12::EMPTY]
     def find(e)
       # puts "Finding [#{e}] in #{self.class} #{name}"
       case self
@@ -104,6 +107,8 @@ module X12
     end
 
     # Present self and all repeats as an array with self being #0.
+    #
+    # @return [Array]
     def to_a
       res = [self]
       nr = self.next_repeat
@@ -115,6 +120,7 @@ module X12
     end
 
     # Returns a parsed string representation of the element.
+    #
     # @return [String]
     def to_s
       @parsed_str || ''
