@@ -8,7 +8,7 @@ module X12
     #
     # @return [String]
     def parse(str)
-      # puts "Parsing loop #{name}: "+str
+      X12.logger.debug("Parsing loop #{name}: #{str}")
       s = str
       nodes.each do |i|
         m = i.parse(s)
@@ -20,7 +20,7 @@ module X12
         self.parsed_str = str[0..-s.length-1]
         s = do_repeats(s)
       end
-      # puts 'Parsed loop '+self.inspect
+      X12.logger.debug("Parsed loop + #{self.inspect}")
       return s
     end
 

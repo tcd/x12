@@ -12,9 +12,9 @@ module X12
     # @return [String,nil]
     def parse(str)
       s = str
-      # puts "Parsing segment #{name} from #{s} with regexp [#{regexp.source}]"
+      X12.logger.debug("Parsing segment #{name} from #{s} with regexp [#{regexp.source}]")
       m = regexp.match(s)
-      # puts "Matched #{m ? m[0] : 'nothing'}"
+      X12.logger.debug("Matched #{m ? m[0] : 'nothing'}")
 
       return nil unless m
 
@@ -22,7 +22,7 @@ module X12
       self.parsed_str = m[0]
       s = do_repeats(s)
 
-      # puts "Parsed segment "+self.inspect
+      X12.logger.debug("Parsed segment #{self.inspect}")
       return s
     end
 
@@ -61,7 +61,7 @@ module X12
           # Simple match
           @regexp = Regexp.new("^#{name}#{Regexp.escape(field_separator)}[^#{Regexp.escape(segment_separator)}]*#{Regexp.escape(segment_separator)}")
         end
-        # puts sprintf("%s %p", name, @regexp)
+        X12.logger.debug(sprintf("%s %p", name, @regexp))
       end
       @regexp
     end
@@ -71,19 +71,19 @@ module X12
     # @param str [String]
     # @return [X12::Base,X12::EMPTY]
     def find_field(str)
-      # puts "Finding field [#{str}] in #{self.class} #{name}"
+      X12.logger.debug("Finding field [#{str}] in #{self.class} #{name}")
       # If there is such a field to begin with
       field_num = nil
       self.nodes.each_index { |i| field_num = i if str == self.nodes[i].name }
       return EMPTY if field_num.nil?
-      # puts field_num
+      X12.logger.debug(field_num)
 
       # Parse the segment if not parsed already
       unless defined? @fields
         @fields = self.to_s.chop.split(Regexp.new(Regexp.escape(field_separator)))
         self.nodes.each_index { |i| self.nodes[i].content = @fields[i + 1] }
       end
-      # puts self.nodes[field_num].inspect
+      X12.logger.debug(self.nodes[field_num].inspect)
       return self.nodes[field_num]
     end
 

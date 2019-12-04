@@ -11,7 +11,7 @@ module X12
       definitions = doc.root.name =~ /^Definition$/i ? doc.root.find('*').to_a : [doc.root]
 
       definitions.each do |element|
-        # puts element.name
+        X12.logger.debug(element.name)
         syntax_element = case element.name
                          when /table/i
                            parse_table(element)

@@ -22,7 +22,7 @@ module X12
       @field_separator     = '*'
       @composite_separator = ':'
 
-      # puts "Created #{name} #{object_id} #{self.class}  "
+      X12.logger.debug("Created #{name} #{object_id} #{self.class}  ")
     end
 
     # Formats a printable string containing the base element's content.
@@ -86,7 +86,7 @@ module X12
         n.nodes[i] = n.nodes[i].dup
         n.nodes[i].set_empty!
       end
-      # puts "Duped #{self.class} #{self.name} #{self.object_id} #{super.object_id} -> #{n.name} #{n.super.object_id} #{n.object_id} "
+      X12.logger.debug("Duped #{self.class} #{self.name} #{self.object_id} #{super.object_id} -> #{n.name} #{n.super.object_id} #{n.object_id} ")
       n
     end
 
@@ -94,7 +94,7 @@ module X12
     #
     # @return [X12::Base,X12::EMPTY]
     def find(e)
-      # puts "Finding [#{e}] in #{self.class} #{name}"
+      X12.logger.debug("Finding [#{e}] in #{self.class} #{name}")
       case self
         when X12::Loop
         # Breadth first
@@ -133,17 +133,17 @@ module X12
     def method_missing(meth, *args, &block)
       str = meth.id2name
       str = str[1..str.length] if str =~ /^_\d+$/ # to avoid pure number names like 270, 997, etc.
-      # puts "Missing #{str}"
+      X12.logger.debug("Missing #{str}")
       if str =~ /=$/
         # Assignment
         str.chop!
-        # puts str
+        X12.logger.debug(str)
         case self
         when X12::Segment
           res = find_field(str)
           throw X12::MethodMissingError.new("No field '#{str}' in segment '#{self.name}'") if res == X12::EMPTY
           res.content = args[0].to_s
-          # puts res.inspect
+          X12.logger.debug(res.inspect)
         else
           throw X12::MethodMissingError.new("Illegal assignment to #{meth} of #{self.class}")
         end
@@ -157,8 +157,8 @@ module X12
 
     # The main method implementing Ruby-like access methods for repeating elements.
     def [](*args)
-      # puts "squares #{args.inspect}"
-      return self.to_a[args[0]] || EMPTY
+      X12.logger.debug("squares #{args.inspect}")
+      return self.to_a[args[0]] || X12::EMPTY
     end
 
     # Yields to accompanying block passing self as a parameter.
