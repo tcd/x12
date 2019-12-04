@@ -89,7 +89,7 @@ module X12
       throw Exception.new("Cannot parse attribute 'required' for: #{e.inspect}") if (required = parse_boolean(e.attributes['required'])).nil?
 
       validation = e.attributes['validation']
-      min = 1 if required and min < 1
+      min = 1 if required && min < 1
       max = 999_999 if max.zero?
 
       return name, min, max, type, required, validation

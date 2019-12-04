@@ -31,13 +31,14 @@ module X12
     # @return [String]
     def render
       self.to_a.inject('') do |repeat_str, i|
+        if i.repeats.begin < 1 && !i.has_content?
           # Skip optional empty segments
           repeat_str
         else
           # Have to render no matter how empty
           repeat_str += i.name + i.nodes.reverse.inject('') do |nodes_str, j|
             field = j.render
-            (j.required or nodes_str != '' or field != '') ? field_separator + field + nodes_str : nodes_str
+            (j.required || nodes_str != '' || field != '') ? field_separator + field + nodes_str : nodes_str
           end + segment_separator
         end
       end
