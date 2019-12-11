@@ -39,7 +39,7 @@ module X12
       # @dir_name = File.dirname(File.expand_path(file_name)) # to look up other files if needed
       @x12_definition = X12::XMLDefinitions.new(str)
 
-      # Populate fields in all segments found in all the loops
+      # Populate fields in all segments found in all the loops.
       if @x12_definition[X12::Loop]
         @x12_definition[X12::Loop].each_pair do |k, v|
           X12.logger.debug("Populating definitions for loop #{k}")
@@ -62,6 +62,7 @@ module X12
     end
     # Parse a loop of a given name out of a string.
     # Throws an exception if the loop name is not defined.
+    #
     def parse(loop_name, str)
       looop = @x12_definition[X12::Loop][loop_name]
       X12.logger.debug("Loops to parse #{@x12_definition[X12::Loop].keys}")
@@ -72,6 +73,7 @@ module X12
     end
 
     # Make an empty loop to be filled out with information.
+    #
     def factory(loop_name)
       looop = @x12_definition[X12::Loop][loop_name]
       throw X12::Error.new("Cannot find a definition for loop #{loop_name}") unless looop
@@ -92,12 +94,13 @@ module X12
       end
     end
 
-    # Instantiate segment's fields as previously defined
+    # Instantiate segment's fields as previously defined.
+    #
     def process_segment(segment)
       X12.logger.debug("Trying to process segment #{segment.inspect}")
       unless @x12_definition[X12::Segment] && @x12_definition[X12::Segment][segment.name]
         # Try to find it in a separate file if missing from the @x12_definition structure
-        initialize(segment.name+'.xml')
+        initialize(segment.name + '.xml')
         segment_definition = @x12_definition[X12::Segment][segment.name]
         throw X12::Error.new("Cannot find a definition for segment #{segment.name}") unless segment_definition
       else

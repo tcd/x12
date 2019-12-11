@@ -88,6 +88,12 @@ module X12
     end
 
     # Provides looping through multiple segments within the loop.
+    #
+    # TODO: enumerator?
+    #
+    # @yield [X12::Segment]
+    # @yieldparam [X12::Segment] segment
+    # @yieldreturn [X12::Segment]
     def each
       res = self.to_a
       0.upto(res.length - 1) { |x| yield res[x] }

@@ -4,18 +4,35 @@ module X12
   # Contains setable segment_separator, field_separator, and composite_separator fields.
   class Base
 
-    attr_reader   :name, :repeats
-    attr_accessor :segment_separator, :field_separator, :composite_separator
-    attr_accessor :next_repeat, :parsed_str, :nodes
+    # @return [String]
+    attr_reader :name
+    # @return [Array,nil]
+    attr_reader :repeats
+
+    # @return [String]
+    attr_accessor :segment_separator
+    # @return [String]
+    attr_accessor :field_separator
+    # @return [String]
+    attr_accessor :composite_separator
+
+    # @return [Array]
+    attr_accessor :nodes
+    # @return []
+    attr_accessor :parsed_str
+    # Next repeat of the same element, if any.
+    attr_accessor :next_repeat
 
     # Creates a new base element with a given name, array of sub-elements, and array of repeats if any.
     #
+    # @param name [String]
+    # @param arr [Array]
+    # @param repeats [,nil] (nil)
     # @return [void]
     def initialize(name, arr, repeats = nil)
-      @nodes = arr
       @name = name
       @repeats = repeats
-      @next_repeat = nil # Next repeat of the same element, if any
+      @next_repeat = nil
       @parsed_str = nil
 
       @segment_separator   = '~'
@@ -70,7 +87,7 @@ module X12
 
     # Empty out the current element.
     #
-    # @return [void]
+    # @return [self]
     def set_empty!
       @next_repeat = nil
       @parsed_str = nil
@@ -78,6 +95,8 @@ module X12
     end
 
     # Make a deep copy of the element.
+    #
+    # @return [self]
     def dup
       n = clone
       n.set_empty!
@@ -130,6 +149,11 @@ module X12
     end
 
     # The main method implementing Ruby-like access methods for nested elements.
+    #
+    # @param meth []
+    # @param args []
+    # @param block []
+    # @return [Any]
     def method_missing(meth, *args, &block)
       str = meth.id2name
       str = str[1..str.length] if str =~ /^_\d+$/ # to avoid pure number names like 270, 997, etc.
@@ -156,12 +180,17 @@ module X12
     end
 
     # The main method implementing Ruby-like access methods for repeating elements.
+    #
+    # @param args [Any]
+    # @return [self,X12::EMPTY]
     def [](*args)
       X12.logger.debug("squares #{args.inspect}")
       return self.to_a[args[0]] || X12::EMPTY
     end
 
     # Yields to accompanying block passing self as a parameter.
+    #
+    # @param block []
     def with(&block)
       if block_given?
         yield self
@@ -171,12 +200,15 @@ module X12
     end
 
     # Returns number of repeats.
+    #
     # @return [Integer]
     def size
       return self.to_a.size
     end
 
     # Check if any of the fields has been set yet.
+    #
+    # @return [X12::Base,nil]
     def has_content?
       self.nodes.find{ |i| i.has_content? }
     end
