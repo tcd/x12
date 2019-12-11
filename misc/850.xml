@@ -10,7 +10,7 @@
 -->
 
 <Definition>
-  <Loop name="850"
+  <Loop name="TS850"
     comment="This X12 Transaction Set contains the format and establishes the data contents of the Functional Acknowledgment Transaction Set (850) for use within the context of an Electronic Data Interchange (EDI) environment. The transaction set can be used to define the control structures for a set of acknowledgments to indicate the results of the syntactical analysis of the electronically encoded documents. The encoded documents are the transaction sets, which are grouped in functional groups, used in defining transactions for business data interchange. This standard does not cover the semantic meaning of the information encoded in the transaction sets.">
     <Segment name="ISA" max="1" required="y" />
     <Segment name="GS" max="1" required="y" />
