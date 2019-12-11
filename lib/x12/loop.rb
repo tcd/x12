@@ -14,12 +14,9 @@ module X12
         m = i.parse(s)
         s = m if m
       end
-      if str == s
-        return nil
-      else
-        self.parsed_str = str[0..-s.length-1]
-        s = do_repeats(s)
-      end
+      return nil if str == s
+      self.parsed_str = str[0..-s.length-1]
+      s = do_repeats(s)
       X12.logger.debug("Parsed loop + #{self.inspect}")
       return s
     end
@@ -29,8 +26,8 @@ module X12
     # @return [String]
     def render
       if self.has_content?
-        self.to_a.inject('') do |loop_str, i|
-          loop_str += i.nodes.inject('') do |nodes_str, j|
+        self.to_a.reduce('') do |loop_str, i|
+          loop_str += i.nodes.reduce('') do |nodes_str, j|
             nodes_str += j.render
           end
         end
@@ -41,9 +38,11 @@ module X12
 
     # Formats a printable string containing the loops element's content.
     # Added to provide compatability with ruby > 2.0.0.
+    #
     # @return [String]
     def inspect
-      "#{self.class.to_s.sub(/^.*::/, '')} (#{name}) #{repeats} =<#{parsed_str}, #{next_repeat.inspect}> ".gsub(/\\*\"/, '"')
+      str = "#{self.class.to_s.sub(/^.*::/, '')} (#{name}) #{repeats} =<#{parsed_str}, #{next_repeat.inspect}> "
+      return str.gsub(/\\*\"/, '"')
     end
 
     # Provides looping through repeats of a message.

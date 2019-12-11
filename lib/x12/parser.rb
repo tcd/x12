@@ -3,22 +3,6 @@ module X12
   # Main class for creating X12 parsers and factories.
   class Parser
 
-    # These constitute prohibited file names under Microsoft
-    MS_DEVICES = [
-      'CON',
-      'PRN',
-      'AUX',
-      'CLOCK$',
-      'NUL',
-      'COM1',
-      'LPT1',
-      'LPT2',
-      'LPT3',
-      'COM2',
-      'COM3',
-      'COM4',
-    ].freeze
-
     # Creates a parser out of a definition.
     #
     # @param file_name [String]
@@ -26,14 +10,8 @@ module X12
     def initialize(file_name)
       save_definition = @x12_definition if defined? @x12_definition
 
-      # Deal with Microsoft devices
       # get the current working directory
-      base_name = File.basename(file_name, '.xml')
-      if MS_DEVICES.find { |i| i == base_name }
-        file_name = File.join(File.dirname, "#{base_name}_.xml")
-      end
       file_location = File.join(File.dirname(__FILE__), '../../misc', file_name)
-
       # Read and parse the definition
       str = File.open(file_location, 'r').read
       # @dir_name = File.dirname(File.expand_path(file_name)) # to look up other files if needed

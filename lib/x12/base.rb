@@ -46,7 +46,8 @@ module X12
     #
     # @return [String]
     def inspect
-      "#{self.class.to_s.sub(/^.*::/, '')} (#{name}) #{repeats} #{super.inspect[1..-2]} =<#{parsed_str}, #{next_repeat.inspect}> ".gsub(/\\*\"/, '"')
+      str = "#{self.class.to_s.sub(/^.*::/, '')} (#{name}) #{repeats} #{super.inspect[1..-2]} =<#{parsed_str}, #{next_repeat.inspect}> "
+      return str.gsub(/\\*\"/, '"')
     end
 
     # Prints a tree-like representation of the element.
@@ -63,6 +64,8 @@ module X12
           i.find_field(i.nodes[0].name)
         end
         i.nodes.each do |j|
+          j.show(ind + '  ') if j.is_a?(X12::Base)
+          puts "#{ind}  #{j.name} -> '#{j}'" if j.is_a?(X12::Field)
         end
         count += 1
       end
@@ -115,17 +118,19 @@ module X12
     def find(e)
       X12.logger.debug("Finding [#{e}] in #{self.class} #{name}")
       case self
-        when X12::Loop
+      when X12::Loop
         # Breadth first
         res = nodes.find { |i| e == i.name }
         return res if res
         # Depth now
         nodes.each do |i|
           res = i.find(e) if i.is_a?(X12::Loop)
+          return res unless res.nil? || res == X12::EMPTY # otherwise keep looping
         end
+      when X12::Segment
         return find_field(e).to_s
       end
-      return EMPTY
+      return X12::EMPTY
     end
 
     # Present self and all repeats as an array with self being #0.
@@ -210,7 +215,7 @@ module X12
     #
     # @return [X12::Base,nil]
     def has_content?
-      self.nodes.find{ |i| i.has_content? }
+      self.nodes.find(&:has_content?)
     end
 
     # Adds a repeat to a segment or loop.

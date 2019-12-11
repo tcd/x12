@@ -57,14 +57,14 @@ module X12
       end
       rendered = @content || ''
       rendered = rendered.ljust(@min_length) if @required
-      rendered
+      return rendered
     end
 
     # Check if it's been set yet and it's not a constant
     #
     # @return [Boolean]
     def has_content?
-      !@content.nil? && ('"'+@content+'"' != self.type)
+      !@content.nil? && (self.type != %("#{@content}"))
     end
 
     # Erase the content.
@@ -72,6 +72,7 @@ module X12
     # @return [void]
     def set_empty!
       @content = nil
+      return nil
     end
 
     # Returns simplified string regexp for this field, takes field separator and segment separator as arguments
@@ -79,8 +80,10 @@ module X12
     # @return [String<Regexp>]
     def simple_regexp(field_sep, segment_sep)
       case self.type
-      when /"(.*)"/ then Regexp.last_match(1)
-      else "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]*"
+      when /"(.*)"/
+        Regexp.last_match(1)
+      else
+        "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]*"
       end
     end
 
@@ -88,12 +91,14 @@ module X12
     #
     # @return [String<Regexp>]
     def proper_regexp(field_sep, segment_sep)
+      field_sep   = Regexp.escape(field_sep)
+      segment_sep = Regexp.escape(segment_sep)
       case self.type
       when 'I'      then "\\d{#{@min_length},#{@max_length}}"
-      when 'S'      then "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]{#{@min_length},#{@max_length}}"
-      when /C.*/    then "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]{#{@min_length},#{@max_length}}"
+      when 'S'      then "[^#{field_sep}#{segment_sep}]{#{@min_length},#{@max_length}}"
+      when /C.*/    then "[^#{field_sep}#{segment_sep}]{#{@min_length},#{@max_length}}"
       when /"(.*)"/ then Regexp.last_match(1)
-      else "[^#{Regexp.escape(field_sep)}#{Regexp.escape(segment_sep)}]*"
+      else               "[^#{field_sep}#{segment_sep}]*"
       end
     end
 

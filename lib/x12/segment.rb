@@ -30,13 +30,13 @@ module X12
     #
     # @return [String]
     def render
-      self.to_a.inject('') do |repeat_str, i|
+      self.to_a.reduce('') do |repeat_str, i|
         if i.repeats.begin < 1 && !i.has_content?
           # Skip optional empty segments
           repeat_str
         else
           # Have to render no matter how empty
-          repeat_str += i.name + i.nodes.reverse.inject('') do |nodes_str, j|
+          repeat_str += i.name + i.nodes.reverse.reduce('') do |nodes_str, j|
             field = j.render
             (j.required || nodes_str != '' || field != '') ? field_separator + field + nodes_str : nodes_str
           end + segment_separator
@@ -51,7 +51,7 @@ module X12
       unless defined? @regexp
         if self.nodes.find { |i| i.type =~ /^".+"$/ }
           # It's a very special regexp if there are constant fields
-          re_str = self.nodes.inject("^#{name}#{Regexp.escape(field_separator)}") do |s, i|
+          re_str = self.nodes.reduce("^#{name}#{Regexp.escape(field_separator)}") do |s, i|
             field_re = i.simple_regexp(field_separator, segment_separator) + Regexp.escape(field_separator) + '?'
             field_re = "(#{field_re})?" unless i.required
             s + field_re
