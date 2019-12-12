@@ -28,7 +28,6 @@ module X12
 
       # Deal with Microsoft devices
       # get the current working directory
-      puts "yeet"
       base_name = File.basename(file_name, '.xml')
       if MS_DEVICES.find { |i| i == base_name }
         file_name = File.join(File.dirname, "#{base_name}_.xml")
