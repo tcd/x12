@@ -1,10 +1,10 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'x12'
+# require 'x12'
 
 Gem::Specification.new do |gem|
   gem.name          = 'tcd_x12'
-  gem.version       = X12::VERSION
+  gem.version       = '1.7.0'
   gem.authors       = ['Marty Petersen', 'Clay Dunston']
   gem.email         = ['themooseman@comcast.net']
   gem.description   = 'A gem to handle parsing and generation of ANSI X12 documents. Currently tested with Ruby >= 1.9.2. Gem supports X12 EDI transactions 270, 997, 837p and 835.  Anyone wanting to create additional XML files for other transactions welcomed.'
@@ -27,9 +27,9 @@ Gem::Specification.new do |gem|
   end
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'libxml-ruby', '~> 3.1'
-
   gem.add_development_dependency 'minitest', '~> 5.0'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'simplecov'
+
+  gem.add_runtime_dependency 'libxml-ruby', '~> 3.1'
 end

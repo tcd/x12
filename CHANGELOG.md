@@ -1,5 +1,8 @@
 # Change Log
 
+12/16/19 - release 1.7.0
+* Add option to use local XML definitions
+
 11/26/19 - release 1.6.3
 * Update 855.xml
 
