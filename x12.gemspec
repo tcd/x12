@@ -27,9 +27,10 @@ Gem::Specification.new do |gem|
   end
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'libxml-ruby', '~> 3.1'
 
   gem.add_development_dependency 'minitest', '~> 5.0'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'simplecov'
+
+  gem.add_runtime_dependency 'libxml-ruby', '~> 3.1'
 end
