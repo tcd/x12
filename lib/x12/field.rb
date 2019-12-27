@@ -1,5 +1,5 @@
 module X12
-  
+
   # Class to represent a segment field. Please note, it's not a descendant of Base.
   class Field
     attr_reader :name, :type, :required, :min_length, :max_length, :validation
@@ -66,5 +66,5 @@ module X12
     end
 
   end
-  
+
 end

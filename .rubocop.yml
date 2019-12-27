@@ -26,3 +26,6 @@ Style/FormatString:
 
 Style/CommentedKeyword:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
