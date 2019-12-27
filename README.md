@@ -9,7 +9,7 @@
 [gem]: https://rubygems.org/gems/tcd_x12
 [inch-ci]: http://inch-ci.org/github/tcd/x12
 [license]: https://github.com/tcd/x12/blob/master/LICENSE
-[docs]: https://www.rubydoc.info/gems/tcd_x12/1.6.2
+[docs]: https://www.rubydoc.info/gems/tcd_x12/1.7.1
 
 Changes welcome, especially new document types or better tests.
 

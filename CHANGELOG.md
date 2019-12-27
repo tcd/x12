@@ -1,5 +1,8 @@
 # Change Log
 
+12/27/19 - release 1.7.1
+* Add `Gemfile.lock` to version control.
+
 12/27/19 - release 1.7.0
 * Add `custom_file` param to `X12.Parser.new` for using local XML definitions
 
